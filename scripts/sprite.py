@@ -20,4 +20,4 @@ class Sprite:
         if not self.colorkey == "1":
             image.set_colorkey(self.colorkey)
         
-        return image.convert_alpha()
+        return image
