@@ -34,9 +34,12 @@ class Game:
         self.tile_list = self.map_output[1]
         self.map_surface = self.map_output[0]
         
-        self.player = Player((0, 0), (16, 32))
+        self.player_spawn = self.map_output[2]
+        self.enemy_spawn = self.map_output[3]
+        
+        self.player = Player(self.player_spawn, (16, 32))
         self.player.initialize()
-        self.enemy = Player((0, 0), (16, 32))
+        self.enemy = Player(self.enemy_spawn, (16, 32))
         self.enemy.initialize()
         
     def loop(self):
@@ -63,6 +66,8 @@ class Game:
     def render(self):
         self.window.fill((0, 0, 0))
         self.window.blit(self.map_surface, (0, 0))
+        self.player.draw(self.window)
+        self.enemy.draw(self.window)
         
         self.display.blit(self.window, self.render_offset)
         pygame.display.update()
