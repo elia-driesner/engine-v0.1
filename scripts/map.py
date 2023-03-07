@@ -4,7 +4,7 @@ from scripts.sprite import Sprite
 
 class Map():
     def __init__(self, tile_size, wn_size, map_path, sprite_path):
-        self.tarrain = str(map)
+        self.tarrain = str(map_path)
         self.tile_size = tile_size
         self.sprite = Sprite(pygame.image.load(str(sprite_path)), (32, 32), (self.tile_size, self.tile_size))
         self.sprite_rows, self.sprite_col = 7, 7
@@ -43,7 +43,7 @@ class Map():
                 for tile in row:
                     x += self.tile_size
                     self.colums += 1
-                    if tile != '-1' and tile != '39':
+                    if tile != '-1' and tile != '39' and tile != '40':
                             self.surface.blit(self.images[int(tile)], (x - scroll[0], y - scroll[1]))
                             self.tile_list.append([self.images[int(tile)], (x - scroll[0], y - scroll[1])])
                     if tile == '39':

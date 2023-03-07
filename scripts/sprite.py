@@ -13,6 +13,7 @@ class Sprite:
         
 
     def cut(self, frame, layer):
+        """cuts the given sprite and returns requested frame"""
         image = pygame.Surface((self.width, self.height))
         image.blit(self.sprite, (0, 0), ((frame * self.width), (self.height * layer), self.width, self.height))
         image = pygame.transform.scale((image), self.scale)

@@ -27,4 +27,3 @@ class Entity:
             self.images.append(row)
         self.image = self.images[0][0]
         self.rect = self.image.get_rect()
-        print(self.images)

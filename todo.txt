@@ -1,0 +1,2 @@
+[] Make Player Class work
+[] Create Game Class
