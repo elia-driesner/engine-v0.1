@@ -3,6 +3,7 @@ import pygame, sys, random, time
 from scripts.entity.entity import Entity
 from scripts.entity.player import Player
 from scripts.map import Map
+from scripts.text.customfont import CustomFont
 
 class Game:
     def __init__(self):  
@@ -26,7 +27,7 @@ class Game:
         self.screen_shake = 0
         self.camera_smoothing = 8
                 
-        # player, enemy and map init
+        # player, enemy, map and font init
         self.map = Map(16, (self.width, self.height), 'assets/map/map_data/floating-islands.csv', 'assets/map/tilesets/grass-tileset.png')
         self.map.load_csv_data()
         self.map.load_images()
@@ -42,13 +43,20 @@ class Game:
         self.enemy = Player(self.enemy_spawn, (16, 32))
         self.enemy.initialize()
         
+        self.font = CustomFont()
+        self.font.load_font()
+        
+        self.test = self.font.write_text('test', 20)
+        
     def loop(self):
         """game loop"""
         while self.run:
+            self.calculate_dt()
             self.clock.tick(self.max_fps)
             self.events()
             
             self.render()
+            self.frame_length = time.time()
     
     def events(self):
         """"checks if window was quit using the x button"""
@@ -69,12 +77,14 @@ class Game:
         self.player.draw(self.window)
         self.enemy.draw(self.window)
         
+        self.window.blit(self.test, (10, 10))
+        
         self.display.blit(self.window, self.render_offset)
         pygame.display.update()
                     
     def calculate_dt(self):
         """Calculates the deltatime between each frame"""
-        self.dt = time.time() - self.last_time
+        self.dt = time.time() - self.frame_length
         self.dt *= self.max_fps
         self.camara_smoothing = 8 - int(self.dt)
                     
