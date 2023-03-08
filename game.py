@@ -45,8 +45,7 @@ class Game:
         
         self.font = CustomFont()
         self.font.load_font()
-        
-        self.test = self.font.write_text('test', 20)
+        self.fps_text = self.font.write_text('FPS 60', 1)
         
     def loop(self):
         """game loop"""
@@ -77,7 +76,7 @@ class Game:
         self.player.draw(self.window)
         self.enemy.draw(self.window)
         
-        self.window.blit(self.test, (10, 10))
+        self.window.blit(self.fps_text, (5, 5))
         
         self.display.blit(self.window, self.render_offset)
         pygame.display.update()
@@ -87,6 +86,8 @@ class Game:
         self.dt = time.time() - self.frame_length
         self.dt *= self.max_fps
         self.camara_smoothing = 8 - int(self.dt)
+        fps = str(int(self.clock.get_fps()))
+        self.fps_text = self.font.write_text(f'{fps} FPS', 1)
                     
 game = Game()
 game.loop()

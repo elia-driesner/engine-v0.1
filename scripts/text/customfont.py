@@ -5,7 +5,7 @@ class CustomFont:
     def __init__(self):
         self.image_path = 'assets/images/font/pixel-font.png'
         self.sprite = Sprite(pygame.image.load(self.image_path), (8, 11), (8, 11))
-        self.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        self.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         self.characters = []
         self.char_surf = pygame.Surface(((100, 500)))
         
@@ -21,15 +21,16 @@ class CustomFont:
         text = str(text)
         size = 0
         for char in text:
-            if char.lower() in self.alphabet:
+            if char.lower() in self.alphabet or char.lower() == ' ':
                 size += 8    
         placeholder_surf = pygame.Surface((size, 11)) 
         placeholder_surf.fill((0, 0, 0, 0))   
         print(size) 
         x = 0
         for char in text:
-            if char.lower() in self.alphabet:
-                index = self.alphabet.index(char.lower())
-                placeholder_surf.blit(self.characters[index], (x, 0))
+            if char.lower() in self.alphabet or char.lower() == ' ':
+                if char.lower() != ' ':        
+                    index = self.alphabet.index(char.lower())
+                    placeholder_surf.blit(self.characters[index], (x, 0))
                 x += 8
         return pygame.transform.scale(placeholder_surf, (font_size * size, font_size * 11))
