@@ -25,7 +25,6 @@ class CustomFont:
                 size += 8    
         placeholder_surf = pygame.Surface((size, 11)) 
         placeholder_surf.fill((0, 0, 0, 0))   
-        print(size) 
         x = 0
         for char in text:
             if char.lower() in self.alphabet or char.lower() == ' ':

@@ -13,7 +13,7 @@ class Player(Entity):
         self.acceleration = pygame.math.Vector2(0, self.gravity)
         
         self.is_jumping, self.on_ground, self.is_falling = False, False, True
-        self.speed = 1.8
+        self.speed = 3
         self.double_jump = True
         self.last_jump = time.time()
         
@@ -37,7 +37,7 @@ class Player(Entity):
             self.acceleration.x += self.speed
         self.acceleration.x += self.velocity.x * self.friction
         self.velocity.x += self.acceleration.x * dt
-        self.limit_velocity(7)
+        self.limit_velocity(12)
         self.position.x += self.velocity.x * dt + (self.acceleration.x * .5) * (dt * dt)
         self.x = self.position.x
         self.rect.x = self.x
@@ -59,11 +59,17 @@ class Player(Entity):
             self.is_jumping = False
         self.y = self.position.y
         self.rect.y = self.y
-        
     
-    def update(self):
+    def limit_velocity(self, max_vel):
+        """limits the velocity of the player"""
+        min(-max_vel, max(self.velocity.x, max_vel))
+        if abs(self.velocity.x) < .01: self.velocity.x = 0
+          
+    def update(self, wn, dt):
         """Draws and moves the player"""
-        self.draw()
+        self.keys = pygame.key.get_pressed()
+        self.draw(wn)
+        self.horizontal_movement(dt)
     
     def initialize(self):
         """Loads images"""

@@ -50,8 +50,8 @@ class Game:
     def loop(self):
         """game loop"""
         while self.run:
-            self.calculate_dt()
             self.clock.tick(self.max_fps)
+            self.calculate_dt()
             self.events()
             
             self.render()
@@ -73,8 +73,8 @@ class Game:
     def render(self):
         self.window.fill((0, 0, 0))
         self.window.blit(self.map_surface, (0, 0))
-        self.player.draw(self.window)
-        self.enemy.draw(self.window)
+        self.player.update(self.window, self.dt)
+        self.enemy.update(self.window, self.dt)
         
         self.window.blit(self.fps_text, (5, 5))
         
@@ -84,7 +84,7 @@ class Game:
     def calculate_dt(self):
         """Calculates the deltatime between each frame"""
         self.dt = time.time() - self.frame_length
-        self.dt *= self.max_fps
+        self.dt *= 60
         self.camara_smoothing = 8 - int(self.dt)
         fps = str(int(self.clock.get_fps()))
         self.fps_text = self.font.write_text(f'{fps} FPS', 1)
