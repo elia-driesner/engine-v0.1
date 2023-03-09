@@ -60,16 +60,78 @@ class Player(Entity):
         self.y = self.position.y
         self.rect.y = self.y
     
+    def jump(self):
+        """checks if player is able to jump and sets the velocity"""
+        if self.on_ground:
+            self.last_jump = time.time()
+            self.double_jump = True
+            self.is_jumping = True
+            self.is_falling = False
+            self.velocity.y -= 13
+            self.rect.y = self.y
+            self.on_ground = False
+        elif self.double_jump and self.on_ground == False and time.time() - self.last_jump > 0.3:
+            self.double_jump = False
+            self.is_jumping = True
+            self.is_falling = False
+            self.velocity.y -= 13
+            self.on_ground = False
+        if self.velocity.y <= -15.5:
+            self.velocity.y = -15
+    
+    def horizontal_collision(self, tiles):
+        """checks for collision left and right and stopps player from moving in that direction"""
+        for tile in tiles:
+            tile_rect = tile[0].get_rect()
+            tile_rect.x = tile[1][0]
+            tile_rect.y = tile[1][1]
+            if self.rect.colliderect(tile_rect):
+                if self.velocity.x > 0:  # Hit tile moving right
+                    self.position.x = tile_rect.left - self.rect.w
+                    self.x = self.position.x
+                elif self.velocity.x < 0:  # Hit tile moving left
+                    self.position.x = tile_rect.right
+                    self.x = self.position.x
+        self.rect.x = self.x
+    
+    def vertical_collision(self, tiles):
+        """prevents player from falling through ground"""
+        self.on_ground = False
+        for tile in tiles:
+            tile_rect = tile[0].get_rect()
+            tile_rect.x = tile[1][0]
+            tile_rect.y = tile[1][1]
+            if self.rect.colliderect(tile_rect):
+                if self.velocity.y >= 0:  # Hit tile from the top
+                    self.on_ground = True
+                    self.is_jumping = False
+                    self.is_falling = False
+                    self.velocity.y = 0
+                    self.acceleration.y = self.gravity
+                    if self.keys[pygame.K_SPACE]:
+                        self.position.y = self.y - 20
+                        self.rect.y = self.position.y
+                    else:
+                        self.position.y = tile_rect.top
+                        self.rect.bottom = self.position.y
+                elif self.velocity.y < 0:  # Hit tile from the bottom
+                    self.velocity.y = 0
+                    self.position.y = tile_rect.bottom
+                    self.rect.top = self.position.y
+    
     def limit_velocity(self, max_vel):
         """limits the velocity of the player"""
         min(-max_vel, max(self.velocity.x, max_vel))
         if abs(self.velocity.x) < .01: self.velocity.x = 0
           
-    def update(self, wn, dt):
+    def update(self, wn, dt, tiles, scroll):
         """Draws and moves the player"""
         self.keys = pygame.key.get_pressed()
-        self.draw(wn)
+        self.draw(wn, scroll)
         self.horizontal_movement(dt)
+        self.horizontal_collision(tiles)
+        self.vertical_movement(dt)
+        self.vertical_collision(tiles)
     
     def initialize(self):
         """Loads images"""

@@ -11,9 +11,9 @@ class Entity:
         self.rect = None
         self.mask = None
         
-    def draw(self, wn):
+    def draw(self, wn, scroll):
         """draws the entity on screen"""
-        wn.blit(self.image, (self.x, self.y))
+        wn.blit(self.image, (self.x - scroll[0], self.y - scroll[1]))
     
     def load_images(self, path, image_size, sprite_rows, spite_cols):
         """Gets images from sprite and saves them in a array"""

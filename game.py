@@ -54,6 +54,9 @@ class Game:
             self.calculate_dt()
             self.events()
             
+            self.scroll[0] += int((self.player.rect.x  - self.scroll[0] - (self.width / 2)) / self.camara_smoothing)
+            self.scroll[1] += int((self.player.rect.y - self.scroll[1] - (self.height / 2)) / self.camara_smoothing)
+            
             self.render()
             self.frame_length = time.time()
     
@@ -72,9 +75,9 @@ class Game:
     
     def render(self):
         self.window.fill((0, 0, 0))
-        self.window.blit(self.map_surface, (0, 0))
-        self.player.update(self.window, self.dt)
-        self.enemy.update(self.window, self.dt)
+        self.window.blit(self.map_surface, (0 - self.scroll[0], 0 - self.scroll[1]))
+        self.player.update(self.window, self.dt, self.tile_list, self.scroll)
+        self.enemy.draw(self.window, self.scroll)
         
         self.window.blit(self.fps_text, (5, 5))
         

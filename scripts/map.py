@@ -47,8 +47,8 @@ class Map():
                             self.surface.blit(self.images[int(tile)], (x - scroll[0], y - scroll[1]))
                             self.tile_list.append([self.images[int(tile)], (x - scroll[0], y - scroll[1])])
                     if tile == '39':
-                        player_spawn = (x, y)
+                        player_spawn = (x, y - 30)
                     if tile == '40':
-                        enemy_spawn = (x, y)
+                        enemy_spawn = (x, y - 30)
         
         return [self.surface, self.tile_list, player_spawn, enemy_spawn]
