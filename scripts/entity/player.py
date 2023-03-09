@@ -112,12 +112,12 @@ class Player(Entity):
                         self.position.y = self.y - 20
                         self.rect.y = self.position.y
                     else:
-                        self.position.y = tile_rect.top
-                        self.rect.bottom = self.position.y
+                        self.rect.bottom = tile_rect.top
                 elif self.velocity.y < 0:  # Hit tile from the bottom
                     self.velocity.y = 0
                     self.position.y = tile_rect.bottom
                     self.rect.top = self.position.y
+        
     
     def limit_velocity(self, max_vel):
         """limits the velocity of the player"""
