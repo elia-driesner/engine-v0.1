@@ -4,7 +4,7 @@ import sys
 
 class Server():
     def __init__(self):
-        self.server = socket.gethostbyname(socket.gethostname())
+        self.server = '192.168.0.139'
         print(self.server)
         self.port = 5555  
         
@@ -41,10 +41,17 @@ class Server():
     def threaded_client(self, conn, player):
         reply = ''
         _run = True
+        print('client connected')
+        conn.send(str(player).encoded())
         
         while _run:
             try:
-                data = self.read_pos(conn.recv(2048*self.data_size).decode())
+                data = conn.recv(2048).decode()
+                print(data)
+                if data != 'test':
+                    data = self.read_pos(data)
+                else:
+                    conn.sendall(str.encode('tested'))
                 self.pos[player] = data
                 print(data)
                 

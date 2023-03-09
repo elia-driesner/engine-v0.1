@@ -4,7 +4,7 @@ class Network():
     def __init__(self, server_addr, server_port):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server = f'{server_addr}'
-        self.port = f'{server_port}'
+        self.port = server_port
         self.addr = (self.server, self.port)
         self.connected = False
         
@@ -32,3 +32,4 @@ class Network():
             print(e)
             return e
         
+n = Network('192.168.0.139', 5555)
