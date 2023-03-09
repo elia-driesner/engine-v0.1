@@ -113,6 +113,7 @@ class Player(Entity):
                         self.rect.y = self.position.y
                     else:
                         self.rect.bottom = tile_rect.top
+                        self.double_jump = True
                 elif self.velocity.y < 0:  # Hit tile from the bottom
                     self.velocity.y = 0
                     self.position.y = tile_rect.bottom
