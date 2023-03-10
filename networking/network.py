@@ -12,6 +12,13 @@ class Network():
         self.pos = (0, 0)
         print(self.id)
         
+    def read_pos(self, str):
+        str = str.split(",")
+        return int(str[0]), int(str[1])
+
+    def make_pos(self, tuple):
+        return str(tuple[0]) + "," + str(tuple[1])
+        
     def connect(self):
         try:
             self.client.connect(self.addr)
@@ -33,3 +40,10 @@ class Network():
             return e
         
 n = Network('192.168.0.139', 5555)
+while True:
+    print(n.id)
+    if n.id == 1:
+        pos = (0, 0)  
+    else:
+        pos = (100, 100)      
+    print(n.send(n.make_pos(pos)))

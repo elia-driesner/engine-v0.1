@@ -4,6 +4,7 @@ from scripts.entity.entity import Entity
 from scripts.entity.player import Player
 from scripts.map import Map
 from scripts.text.customfont import CustomFont
+from networking.network import Network
 
 class Game:
     def __init__(self):  
@@ -72,6 +73,9 @@ class Game:
                     pygame.quit()
                     self.run = False
                     sys.exit(0)
+                    
+    def conect(self):
+        self.n = Network('192.168.0.139', 5555)
     
     def render(self):
         self.window.fill((0, 0, 0))
