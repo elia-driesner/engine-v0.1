@@ -14,10 +14,10 @@ class Network():
         
     def read_pos(self, str):
         str = str.split(",")
-        return int(str[0]), int(str[1])
+        return int(str[0]), int(str[1]), int(str[2])
 
     def make_pos(self, tuple):
-        return str(tuple[0]) + "," + str(tuple[1])
+        return str(tuple[0]) + "," + str(tuple[1]) + "," + str(tuple[2])
         
     def connect(self):
         try:
@@ -39,11 +39,12 @@ class Network():
             print(e)
             return e
         
-n = Network('192.168.0.139', 5555)
-while True:
-    print(n.id)
-    if n.id == 1:
-        pos = (0, 0)  
-    else:
-        pos = (100, 100)      
-    print(n.send(n.make_pos(pos)))
+# n = Network('192.168.0.139', 5555)
+# while True:
+#     pos = (0, 0, 0)  
+#     if int(n.id) == 1:
+#         pos = (0, 0, 1)  
+#     else:
+#         pos = (100, 100, 2)      
+#     pos = (pos[0], pos[1], n.id)
+#     print(n.send(n.make_pos(pos)))

@@ -41,6 +41,7 @@ class Game:
         
         self.player = Player(self.player_spawn, (16, 32))
         self.player.initialize()
+        self.enemy_pos = self.enemy_spawn
         self.enemy = Player(self.enemy_spawn, (16, 32))
         self.enemy.initialize()
         
@@ -50,7 +51,14 @@ class Game:
         
     def loop(self):
         """game loop"""
+        self.n = Network('192.168.0.139', 5555)
         while self.run:
+            pos = (0, 0, 0)  
+            pos = (int(self.player.x), int(self.player.y), self.n.id)
+            self.enemy_pos = self.n.send(self.n.make_pos(pos))
+            self.enemy.x = int(self.enemy_pos[0])
+            self.enemy.y = int(self.enemy_pos[1])
+            
             self.clock.tick(self.max_fps)
             self.calculate_dt()
             self.events()
@@ -73,9 +81,6 @@ class Game:
                     pygame.quit()
                     self.run = False
                     sys.exit(0)
-                    
-    def conect(self):
-        self.n = Network('192.168.0.139', 5555)
     
     def render(self):
         self.window.fill((0, 0, 0))
