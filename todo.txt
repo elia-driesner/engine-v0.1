@@ -1,2 +1,3 @@
-[] Make Player Class work
-[] Create Game Class
+[] optimize bg perfromance
+[] make moving bg objects
+[] make game logic run on server
