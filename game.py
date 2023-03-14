@@ -3,6 +3,7 @@ import pygame, sys, random, time
 from scripts.entity.entity import Entity
 from scripts.entity.player import Player, PlayerIndicator
 from scripts.map.map import Map
+from scripts.map.background import Background
 from scripts.text.customfont import CustomFont
 from networking.network import Network
 
@@ -29,7 +30,7 @@ class Game:
         self.camera_smoothing = 8
                 
         # player, enemy, map and font init
-        self.map = Map(16, (self.width, self.height), 'assets/map/map_data/floating-islands.csv', 'assets/map/tilesets/grass-tileset.png')
+        self.map = Map(16, (self.width, self.height), './assets/map/map_data/floating-islands.csv', './assets/map/tilesets/grass-tileset.png')
         self.map.load_csv_data()
         self.map.load_images()
         self.map_output = self.map.draw_map(self.scroll)
@@ -46,6 +47,8 @@ class Game:
         self.enemy = Player(self.enemy_spawn, (16, 32))
         self.enemy.initialize()
         
+        self.bg = Background()
+        
         self.font = CustomFont()
         self.font.load_font()
         self.fps_text = self.font.write_text('FPS 60', 1)
@@ -60,6 +63,10 @@ class Game:
             if self.enemy_pos:
                 self.enemy.x = int(self.enemy_pos[0])
                 self.enemy.y = int(self.enemy_pos[1])
+                
+            if self.player.y > 800:
+                self.player.x = self.player.spawn[0]
+                self.player.y = self.player.spawn[1]
             
             self.clock.tick(self.max_fps)
             self.calculate_dt()
