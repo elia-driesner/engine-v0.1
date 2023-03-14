@@ -1,9 +1,10 @@
 import pygame, sys, random, time
 
 from scripts.entity.entity import Entity
-from scripts.entity.player import Player
-from scripts.map import Map
+from scripts.entity.player import Player, PlayerIndicator
+from map.map import Map
 from scripts.text.customfont import CustomFont
+from networking.network import Network
 
 class Game:
     def __init__(self):  
@@ -40,6 +41,8 @@ class Game:
         
         self.player = Player(self.player_spawn, (16, 32))
         self.player.initialize()
+        self.player_inicator = PlayerIndicator()
+        self.enemy_pos = self.enemy_spawn
         self.enemy = Player(self.enemy_spawn, (16, 32))
         self.enemy.initialize()
         
@@ -49,7 +52,15 @@ class Game:
         
     def loop(self):
         """game loop"""
+        # self.n = Network('192.168.110.159', 5555)
         while self.run:
+            # pos = (int(self.player.x), int(self.player.y), int(self.n.id))
+            # self.enemy_pos = self.n.send(self.n.make_pos(pos))
+            # self.enemy_pos = self.n.read_pos(self.enemy_pos)
+            if self.enemy_pos:
+                self.enemy.x = int(self.enemy_pos[0])
+                self.enemy.y = int(self.enemy_pos[1])
+            
             self.clock.tick(self.max_fps)
             self.calculate_dt()
             self.events()
@@ -78,6 +89,9 @@ class Game:
         self.window.blit(self.map_surface, (0 - self.scroll[0], 0 - self.scroll[1]))
         self.player.update(self.window, self.dt, self.tile_list, self.scroll)
         self.enemy.draw(self.window, self.scroll)
+        self.player_inicator.animations()
+        
+        self.player_inicator.draw(self.player.rect, self.window, self.scroll)
         
         self.window.blit(self.fps_text, (5, 5))
         
