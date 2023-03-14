@@ -26,4 +26,5 @@ class Entity:
                 row.append(self.sprite.cut(j, i))
             self.images.append(row)
         self.image = self.images[0][0]
+        self.image.set_colorkey((0,0,0))
         self.rect = self.image.get_rect()

@@ -10,8 +10,8 @@ from networking.network import Network
 class Game:
     def __init__(self):  
         # pygame init
-        self.width, self.height = 960, 540
-        # self.width, self.height = 1920, 1080
+        # self.width, self.height = 960, 540
+        self.width, self.height = 1920, 1080
         if self.width == 1920:
             self.display = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         else:
@@ -30,7 +30,7 @@ class Game:
         self.camera_smoothing = 8
                 
         # player, enemy, map and font init
-        self.map = Map(16, (self.width, self.height), './assets/map/map_data/floating-islands.csv', './assets/map/tilesets/grass-tileset.png')
+        self.map = Map(25, (self.width, self.height), './assets/map/map_data/floating-islands.csv', './assets/map/tilesets/grass-tileset.png')
         self.map.load_csv_data()
         self.map.load_images()
         self.map_output = self.map.draw_map(self.scroll)
@@ -40,11 +40,11 @@ class Game:
         self.player_spawn = self.map_output[2]
         self.enemy_spawn = self.map_output[3]
         
-        self.player = Player(self.player_spawn, (16, 32))
+        self.player = Player(self.player_spawn, (25, 50))
         self.player.initialize()
         self.player_inicator = PlayerIndicator()
         self.enemy_pos = self.enemy_spawn
-        self.enemy = Player(self.enemy_spawn, (16, 32))
+        self.enemy = Player(self.enemy_spawn, (25, 50))
         self.enemy.initialize()
         
         self.bg = Background()
@@ -65,8 +65,10 @@ class Game:
                 self.enemy.y = int(self.enemy_pos[1])
                 
             if self.player.y > 800:
-                self.player.x = self.player.spawn[0]
-                self.player.y = self.player.spawn[1]
+                self.player.x = self.player_spawn[0]
+                self.player.y = self.player_spawn[1]
+                self.player.position.x = self.player_spawn[0]
+                self.player.position.y = self.player_spawn[1]
             
             self.clock.tick(self.max_fps)
             self.calculate_dt()

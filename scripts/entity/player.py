@@ -9,12 +9,12 @@ class Player(Entity):
         Entity.__init__(self, pos, size)
         
         # Movement variables
-        self.gravity, self.friction = .6, -.15
+        self.gravity, self.friction = 1, -.3
         self.position, self.velocity = pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(0, 0)
         self.acceleration = pygame.math.Vector2(0, self.gravity)
         
         self.is_jumping, self.on_ground, self.is_falling = False, False, True
-        self.speed = 3
+        self.speed = 9
         self.double_jump = True
         self.last_jump = time.time()
         
@@ -38,7 +38,7 @@ class Player(Entity):
             self.acceleration.x += self.speed
         self.acceleration.x += self.velocity.x * self.friction
         self.velocity.x += self.acceleration.x * dt
-        self.limit_velocity(12)
+        self.limit_velocity(7)
         self.position.x += self.velocity.x * dt + (self.acceleration.x * .5) * (dt * dt)
         self.x = self.position.x
         self.rect.x = self.x
@@ -48,7 +48,7 @@ class Player(Entity):
         if self.keys[pygame.K_SPACE]:               
             self.jump()
         self.velocity.y += self.acceleration.y * dt
-        if self.velocity.y > 7: self.velocity.y = 7 
+        if self.velocity.y > 16: self.velocity.y = 16
         if self.on_ground:                          
             self.is_falling = False
             self.is_jumping = False
@@ -68,17 +68,17 @@ class Player(Entity):
             self.double_jump = True
             self.is_jumping = True
             self.is_falling = False
-            self.velocity.y -= 13
+            self.velocity.y -= 20
             self.rect.y = self.y
             self.on_ground = False
         elif self.double_jump and self.on_ground == False and time.time() - self.last_jump > 0.3:
             self.double_jump = False
             self.is_jumping = True
             self.is_falling = False
-            self.velocity.y -= 13
+            self.velocity.y -= 20
             self.on_ground = False
-        if self.velocity.y <= -15.5:
-            self.velocity.y = -15
+        if self.velocity.y <= -40.5:
+            self.velocity.y = -40
     
     def horizontal_collision(self, tiles):
         """checks for collision left and right and stopps player from moving in that direction"""
@@ -88,9 +88,11 @@ class Player(Entity):
             tile_rect.y = tile[1][1]
             if self.rect.colliderect(tile_rect):
                 if self.velocity.x > 0:  # Hit tile moving right
+                    self.velocity.x = 0
                     self.position.x = tile_rect.left - self.rect.w
                     self.x = self.position.x
                 elif self.velocity.x < 0:  # Hit tile moving left
+                    self.velocity.x = 0
                     self.position.x = tile_rect.right
                     self.x = self.position.x
         self.rect.x = self.x
