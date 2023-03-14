@@ -2,7 +2,7 @@ import pygame, sys, random, time
 
 from scripts.entity.entity import Entity
 from scripts.entity.player import Player, PlayerIndicator
-from map.map import Map
+from scripts.map.map import Map
 from scripts.text.customfont import CustomFont
 from networking.network import Network
 
