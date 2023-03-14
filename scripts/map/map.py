@@ -9,6 +9,7 @@ class Map():
         self.sprite = Sprite(pygame.image.load(str(sprite_path)), (32, 32), (self.tile_size, self.tile_size))
         self.sprite_rows, self.sprite_col = 7, 7
         self.surface = pygame.Surface((1920 * 3, 1080 * 3))
+        self.surface.set_colorkey((0,0,0))
         self.wn_size = wn_size
         
         self.images = []

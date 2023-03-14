@@ -21,13 +21,13 @@ class Game:
         self.clock = pygame.time.Clock()
         
         self.run = True
-        self.max_fps = 60 
+        self.max_fps = 144 
         self.scroll = [0, 0]
         self.dt = 0
         self.frame_length = time.time()
         self.render_offset = [0, 0]
         self.screen_shake = 0
-        self.camera_smoothing = 8
+        self.camara_smoothing = 8
                 
         # player, enemy, map and font init
         self.map = Map(25, (self.width, self.height), './assets/map/map_data/floating-islands.csv', './assets/map/tilesets/grass-tileset.png')
@@ -47,16 +47,18 @@ class Game:
         self.enemy = Player(self.enemy_spawn, (25, 50))
         self.enemy.initialize()
         
-        self.bg = Background()
-        
         self.font = CustomFont()
         self.font.load_font()
         self.fps_text = self.font.write_text('FPS 60', 1)
+        
+        self.bg = Background()
+        self.bg.move_lines = True
         
     def loop(self):
         """game loop"""
         # self.n = Network('192.168.110.159', 5555)
         while self.run:
+            self.frame_length = time.time()
             # pos = (int(self.player.x), int(self.player.y), int(self.n.id))
             # self.enemy_pos = self.n.send(self.n.make_pos(pos))
             # self.enemy_pos = self.n.read_pos(self.enemy_pos)
@@ -71,14 +73,13 @@ class Game:
                 self.player.position.y = self.player_spawn[1]
             
             self.clock.tick(self.max_fps)
-            self.calculate_dt()
             self.events()
             
             self.scroll[0] += int((self.player.rect.x  - self.scroll[0] - (self.width / 2)) / self.camara_smoothing)
             self.scroll[1] += int((self.player.rect.y - self.scroll[1] - (self.height / 2)) / self.camara_smoothing)
             
             self.render()
-            self.frame_length = time.time()
+            self.calculate_dt()
     
     def events(self):
         """"checks if window was quit using the x button"""
@@ -95,6 +96,7 @@ class Game:
     
     def render(self):
         self.window.fill((0, 0, 0))
+        self.window.blit(self.bg.draw(), (0 - self.scroll[0], 0 - self.scroll[1]))
         self.window.blit(self.map_surface, (0 - self.scroll[0], 0 - self.scroll[1]))
         self.player.update(self.window, self.dt, self.tile_list, self.scroll)
         self.enemy.draw(self.window, self.scroll)

@@ -9,12 +9,12 @@ class Player(Entity):
         Entity.__init__(self, pos, size)
         
         # Movement variables
-        self.gravity, self.friction = 1, -.3
+        self.gravity, self.friction = 0.9, -.3
         self.position, self.velocity = pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(0, 0)
         self.acceleration = pygame.math.Vector2(0, self.gravity)
         
         self.is_jumping, self.on_ground, self.is_falling = False, False, True
-        self.speed = 9
+        self.speed = 6
         self.double_jump = True
         self.last_jump = time.time()
         
@@ -68,17 +68,17 @@ class Player(Entity):
             self.double_jump = True
             self.is_jumping = True
             self.is_falling = False
-            self.velocity.y -= 20
+            self.velocity.y -= 17
             self.rect.y = self.y
             self.on_ground = False
         elif self.double_jump and self.on_ground == False and time.time() - self.last_jump > 0.3:
             self.double_jump = False
             self.is_jumping = True
             self.is_falling = False
-            self.velocity.y -= 20
+            self.velocity.y -= 17
             self.on_ground = False
-        if self.velocity.y <= -40.5:
-            self.velocity.y = -40
+        if self.velocity.y <= -32.5:
+            self.velocity.y = -32
     
     def horizontal_collision(self, tiles):
         """checks for collision left and right and stopps player from moving in that direction"""
