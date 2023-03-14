@@ -4,7 +4,7 @@ import sys
 
 class Server():
     def __init__(self):
-        self.server = '192.168.0.139'
+        self.server = '192.168.110.159'
         print(self.server)
         self.port = 5555  
         

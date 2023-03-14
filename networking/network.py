@@ -39,7 +39,7 @@ class Network():
             print(e)
             return e
         
-# n = Network('192.168.0.139', 5555)
+# n = Network('192.168.56.110', 5555)
 # while True:
 #     pos = (0, 0, 0)  
 #     if int(n.id) == 1:
