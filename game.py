@@ -66,7 +66,7 @@ class Game:
                 self.enemy.x = int(self.enemy_pos[0])
                 self.enemy.y = int(self.enemy_pos[1])
                 
-            if self.player.y > 800:
+            if self.player.y > 900:
                 self.player.x = self.player_spawn[0]
                 self.player.y = self.player_spawn[1]
                 self.player.position.x = self.player_spawn[0]
@@ -96,7 +96,7 @@ class Game:
     
     def render(self):
         self.window.fill((0, 0, 0))
-        self.window.blit(self.bg.draw(), (0 - self.scroll[0], 0 - self.scroll[1]))
+        self.window.blit(self.bg.draw(), ((self.width, self.height), (0 - self.scroll[0], 0 - self.scroll[1])))
         self.window.blit(self.map_surface, (0 - self.scroll[0], 0 - self.scroll[1]))
         self.player.update(self.window, self.dt, self.tile_list, self.scroll)
         self.enemy.draw(self.window, self.scroll)
